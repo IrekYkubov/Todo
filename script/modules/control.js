@@ -88,14 +88,23 @@ const statusTask = (table, modal) => {
     const target = e.target;
     if (target.closest('.btn-success')) {
       const elem = target.closest('tr');
-      elem.classList.remove('table-light');
-      elem.classList.add('table-success');
-      elem.querySelector('.status').textContent = 'Выполнена';
       const idElem = elem.getAttribute('data-id');
       const index = data.findIndex(el => el.id === idElem);
-      data[index].status = 'Выполнена';
-      data[index].classStatus = 'table-success';
-      setStorage(hiddInp.value, JSON.stringify(data));
+      if (data[index].status === 'Выполнена') {
+        elem.classList.remove('table-success');
+        elem.classList.add('table-light');
+        elem.querySelector('.status').textContent = 'В процессе';
+        data[index].status = 'В процессе';
+        data[index].classStatus = 'table-light';
+        setStorage(hiddInp.value, JSON.stringify(data));
+      } else {
+        elem.classList.remove('table-light');
+        elem.classList.add('table-success');
+        elem.querySelector('.status').textContent = 'Выполнена';
+        data[index].status = 'Выполнена';
+        data[index].classStatus = 'table-success';
+        setStorage(hiddInp.value, JSON.stringify(data));
+      }
     }
   });
 };
